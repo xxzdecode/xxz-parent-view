@@ -1,0 +1,9 @@
+{
+  "name": "xxz-parent-view",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "test": "node --test tests/*.test.js",
+    "serve": "python -m http.server 4173"
+  }
+}

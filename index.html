@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f6f3ed">
+  <title>学习情况</title>
+  <script>if (new URLSearchParams(location.search).has('mobile-preview')) document.documentElement.classList.add('mobile-preview');</script>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <p class="eyebrow">芳菲 · 启源</p>
+      <h1>学习情况</h1>
+    </div>
+    <time id="updatedAt">正在更新</time>
+  </header>
+
+  <main id="homeView">
+    <section class="panel panel--today" aria-labelledby="todayTitle">
+      <div class="panel-heading"><div><p class="panel-kicker">今天</p><h2 id="todayTitle">今日作业</h2></div></div>
+      <div id="homeworkList" class="homework-list loading-card">正在读取今日作业…</div>
+    </section>
+
+    <section class="panel" aria-labelledby="onlineTitle">
+      <button type="button" class="panel-heading panel-heading--link" data-open-detail="online">
+        <div><p class="panel-kicker">线上学习</p><h2 id="onlineTitle">今日 30 金币</h2></div><span>查看历史 ›</span>
+      </button>
+      <div id="onlineStudents" class="student-stack paired-grid loading-card">正在读取线上学习结果…</div>
+    </section>
+
+    <section class="panel" aria-labelledby="todayGradingTitle">
+      <button type="button" class="panel-heading panel-heading--link" data-open-detail="grading">
+        <div><p class="panel-kicker">今天</p><h2 id="todayGradingTitle">批改情况</h2></div><span>查看历史 ›</span>
+      </button>
+      <div id="todayGrading" class="paired-grid loading-card">正在读取批改记录…</div>
+    </section>
+
+    <section class="panel" aria-labelledby="todayDailyTitle">
+      <button type="button" class="panel-heading panel-heading--link" data-open-detail="daily">
+        <div><p class="panel-kicker">今天</p><h2 id="todayDailyTitle">学习日报</h2></div><span>查看日历 ›</span>
+      </button>
+      <article id="todayDaily" class="daily-detail daily-detail--home loading-card">正在读取今日日报…</article>
+    </section>
+
+    <nav class="home-links" aria-label="查看其他学习信息">
+      <button type="button" data-open-detail="weakness"><span>薄弱点</span><small>查看需要巩固的内容</small></button>
+      <button type="button" data-open-detail="knowledge"><span>知识点库</span><small>查看英语和数学进度</small></button>
+    </nav>
+  </main>
+
+  <main id="detailView" class="detail-view" hidden>
+    <button id="backHome" type="button" class="back-button">‹ 返回今天</button>
+
+    <section class="panel detail-screen" data-detail="grading" aria-labelledby="gradingTitle" hidden>
+      <div class="panel-heading"><div><p class="panel-kicker">全部记录</p><h2 id="gradingTitle">批改情况</h2></div></div>
+      <div id="gradingStudents" class="student-stack paired-grid loading-card">正在读取批改记录…</div>
+    </section>
+
+    <section class="panel detail-screen" data-detail="online" aria-labelledby="onlineHistoryTitle" hidden>
+      <div class="panel-heading"><div><p class="panel-kicker">历史记录</p><h2 id="onlineHistoryTitle">线上学习</h2></div></div>
+      <div id="onlineHistory" class="history-list loading-card">正在读取线上学习记录…</div>
+    </section>
+
+    <section class="panel detail-screen" data-detail="weakness" aria-labelledby="weaknessTitle" hidden>
+      <div class="panel-heading"><div><p class="panel-kicker">需要巩固</p><h2 id="weaknessTitle">薄弱点</h2></div></div>
+      <div id="weaknessStudents" class="student-stack paired-grid loading-card">正在读取薄弱点…</div>
+    </section>
+
+    <section class="panel detail-screen" data-detail="daily" aria-labelledby="dailyTitle" hidden>
+      <div class="panel-heading"><div><p class="panel-kicker">每日记录</p><h2 id="dailyTitle">学习日报</h2></div><input id="dayPicker" type="date" aria-label="选择日期"></div>
+      <div id="dailyCalendar" class="calendar loading-card">正在读取日报…</div>
+      <article id="dailyDetail" class="daily-detail" hidden></article>
+    </section>
+
+    <section class="panel detail-screen" data-detail="knowledge" aria-labelledby="knowledgeTitle" hidden>
+      <div class="panel-heading"><div><p class="panel-kicker">学习进度</p><h2 id="knowledgeTitle">知识点库</h2></div></div>
+      <div class="subject-switch" role="tablist" aria-label="选择学科">
+        <button type="button" class="is-active" data-subject="english">英语</button>
+        <button type="button" data-subject="math">数学</button>
+      </div>
+      <div id="knowledgeContent" class="knowledge-content loading-card">正在读取知识点…</div>
+    </section>
+  </main>
+
+  <dialog class="photo-dialog" id="photoDialog" aria-labelledby="photoDialogTitle">
+    <div class="photo-dialog__bar">
+      <h2 id="photoDialogTitle">卷子照片</h2>
+      <button type="button" id="closePhotoDialog" aria-label="关闭">×</button>
+    </div>
+    <div class="photo-dialog__body" id="photoDialogBody">正在读取照片…</div>
+  </dialog>
+
+  <footer>芳菲 · 启源学习记录</footer>
+  <script src="config.js?v=4"></script>
+  <script src="js/model.js?v=4"></script>
+  <script src="js/app.js?v=4"></script>
+</body>
+</html>
