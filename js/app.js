@@ -2,7 +2,10 @@
   'use strict';
   const model = root.ParentViewModel;
   const config = root.PARENT_VIEW_CONFIG || {};
-  const state = { values: {}, topics: [], mathCatalog: {}, dailyHistory: [], subject: 'english', today: model.dateKey(), date: model.dateKey() };
+  const params = new URLSearchParams(root.location.search);
+  const dailyCardMode = params.get('view') === 'daily-card';
+  const requestedDate = /^\d{4}-\d{2}-\d{2}$/.test(params.get('date') || '') ? params.get('date') : model.dateKey();
+  const state = { values: {}, topics: [], mathCatalog: {}, dailyHistory: [], subject: 'english', today: model.dateKey(), date: requestedDate };
   const typeLabels = { daily: '日测', weekly: '周测', monthly: '月测', pro: '薄弱专项', homework: '作业' };
 
   function escapeHtml(value) {
@@ -154,6 +157,28 @@
     target.innerHTML = entry.sections.map(section => `<section><h4>${escapeHtml(section.title)}</h4>${section.items.length === 1 ? `<p>${escapeHtml(section.items[0])}</p>` : `<ul>${section.items.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>`}</section>`).join('');
   }
 
+  function renderDailyCard(updates) {
+    if (!dailyCardMode) return;
+    const target = document.getElementById('dailyCardContent');
+    const entry = model.dailyUpdateForDate(updates, state.date);
+    document.getElementById('dailyCardDate').textContent = formatDate(state.date);
+    document.getElementById('dailyCardTitle').textContent = entry?.title || '今日学习反馈';
+    if (!entry) {
+      target.className = 'daily-card__content empty';
+      target.textContent = '这一天还没有学习反馈';
+      return;
+    }
+    const sections = entry.sections.map(section => `<section><h2>${escapeHtml(section.title)}</h2>${section.items.map(item => {
+      const weakness = /^薄弱点[：:]\s*/.test(item);
+      return `<p${weakness ? ' class="daily-card__weakness"' : ''}>${escapeHtml(item)}</p>`;
+    }).join('')}</section>`).join('');
+    const homework = entry.homework.length
+      ? `<section class="daily-card__homework"><h2>今日作业</h2><ol>${entry.homework.map(item => `<li>${escapeHtml(item.replace(/^\d+[.、]\s*/, ''))}</li>`).join('')}</ol></section>`
+      : '';
+    target.className = 'daily-card__content';
+    target.innerHTML = sections + homework;
+  }
+
   function renderOnlineHistory() {
     const target = document.getElementById('onlineHistory');
     const dates = [...new Set(model.STUDENTS.flatMap(student => Object.keys((state.values[`student_reward_v1_${student.id}`] || {}).daily || {})))]
@@ -280,6 +305,10 @@
 
   function renderAll() {
     const updates = mergedDailyUpdates();
+    if (dailyCardMode) {
+      renderDailyCard(updates);
+      return;
+    }
     renderHomework(updates);
     renderOnline();
     renderOnlineHistory();
@@ -299,6 +328,14 @@
 
   async function load() {
     document.getElementById('dayPicker').value = state.date;
+    if (dailyCardMode) {
+      await Promise.allSettled([
+        kvGet('parent_daily_updates_v1').then(value => { state.values.parent_daily_updates_v1 = value; }),
+        jsonGet(config.dailyHistoryUrl).then(value => { state.dailyHistory = model.normalizeDailyUpdates(value); })
+      ]);
+      renderAll();
+      return;
+    }
     const keys = [
       'parent_daily_updates_v1', 'parent_assessment_media_v1', 'assessment_catalog_v1', 'assessment_weakness_view_v1',
       'grammar_progress', 'math_parent_progress_v1',
@@ -319,6 +356,14 @@
     ]);
     renderAll();
     if (results.every(result => result.status === 'rejected')) document.getElementById('updatedAt').textContent = '暂时无法更新';
+  }
+
+  if (dailyCardMode) {
+    document.getElementById('homeView').hidden = true;
+    document.getElementById('detailView').hidden = true;
+    document.querySelector('.topbar').hidden = true;
+    document.querySelector('body > footer').hidden = true;
+    document.getElementById('dailyCardView').hidden = false;
   }
 
   document.getElementById('dayPicker').addEventListener('change', event => {

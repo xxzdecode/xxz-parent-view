@@ -4,6 +4,11 @@
   "private": true,
   "scripts": {
     "test": "node --test tests/*.test.js",
+    "test:daily-card-viewport": "node tests/dailyCardViewport.mjs",
+    "capture:daily-card": "node scripts/capture-daily-card.mjs",
     "serve": "python -m http.server 4173"
+  },
+  "devDependencies": {
+    "playwright": "^1.55.0"
   }
 }
