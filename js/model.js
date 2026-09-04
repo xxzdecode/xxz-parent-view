@@ -244,6 +244,11 @@
     }).filter(entry => /^\d{4}-\d{2}-\d{2}$/.test(entry.date)).sort((a, b) => b.date.localeCompare(a.date));
   }
 
+  function dailyUpdateForDate(updates, date) {
+    const target = String(date || '').trim();
+    return (Array.isArray(updates) ? updates : []).find(item => item && item.date === target) || null;
+  }
+
   function englishKnowledge(topicsValue, progressValue) {
     const topics = Array.isArray(topicsValue) ? topicsValue : [];
     const source = object(progressValue);
@@ -302,6 +307,7 @@
     mediaItemForPaper,
     weaknessItems,
     normalizeDailyUpdates,
+    dailyUpdateForDate,
     englishKnowledge,
     mathKnowledge
   };

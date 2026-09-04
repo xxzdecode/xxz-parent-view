@@ -108,4 +108,6 @@ test('same-day daily update is represented by one dated record', () => {
   } });
   assert.equal(updates.length, 1);
   assert.deepEqual(updates[0].homework, ['完成数学练习']);
+  assert.equal(model.dailyUpdateForDate(updates, '2026-08-26').title, '今日学习反馈');
+  assert.equal(model.dailyUpdateForDate(updates, '2026-08-27'), null);
 });

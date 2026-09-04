@@ -5,7 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#f6f3ed">
   <title>学习情况</title>
-  <script>if (new URLSearchParams(location.search).has('mobile-preview')) document.documentElement.classList.add('mobile-preview');</script>
+  <script>
+    const pageParams = new URLSearchParams(location.search);
+    if (pageParams.has('mobile-preview')) document.documentElement.classList.add('mobile-preview');
+    if (pageParams.get('view') === 'daily-card') document.documentElement.classList.add('daily-card-view');
+  </script>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -48,6 +52,17 @@
       <button type="button" data-open-detail="weakness"><span>薄弱点</span><small>查看需要巩固的内容</small></button>
       <button type="button" data-open-detail="knowledge"><span>知识点库</span><small>查看英语和数学进度</small></button>
     </nav>
+  </main>
+
+  <main id="dailyCardView" class="daily-card-viewer" hidden>
+    <article class="daily-card" aria-labelledby="dailyCardTitle">
+      <header class="daily-card__header">
+        <p>芳菲 · 启源</p>
+        <h1 id="dailyCardTitle">今日学习反馈</h1>
+        <time id="dailyCardDate"></time>
+      </header>
+      <div id="dailyCardContent" class="daily-card__content loading-card">正在读取学习反馈…</div>
+    </article>
   </main>
 
   <main id="detailView" class="detail-view" hidden>
@@ -93,8 +108,8 @@
   </dialog>
 
   <footer>芳菲 · 启源学习记录</footer>
-  <script src="config.js?v=4"></script>
-  <script src="js/model.js?v=4"></script>
-  <script src="js/app.js?v=4"></script>
+  <script src="config.js?v=5"></script>
+  <script src="js/model.js?v=5"></script>
+  <script src="js/app.js?v=5"></script>
 </body>
 </html>

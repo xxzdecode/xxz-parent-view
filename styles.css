@@ -141,6 +141,26 @@ main { width: min(100%, 560px); margin: 0 auto; padding: 0 12px 34px; display: g
 
 footer { padding: 0 16px calc(22px + env(safe-area-inset-bottom)); color: #9a9f9f; text-align: center; font-size: 11px; }
 
+html.daily-card-view,
+html.daily-card-view body { width: 393px; max-width: 393px; min-height: 100%; overflow-x: hidden; }
+html.daily-card-view body { background: linear-gradient(180deg, #edf5f1 0, #f6f3ed 180px); }
+.daily-card-viewer { display: block; width: 393px; padding: 16px 12px 20px; }
+.daily-card { overflow: hidden; border: 1px solid #ded8cd; border-radius: 24px; background: var(--card); box-shadow: 0 12px 32px rgba(66, 57, 45, .10); }
+.daily-card__header { padding: 24px 22px 18px; color: #fff; background: linear-gradient(145deg, #356e60, #568879); }
+.daily-card__header p { margin: 0 0 7px; font-size: 12px; font-weight: 800; letter-spacing: .09em; opacity: .86; }
+.daily-card__header h1 { margin: 0; font-size: 25px; line-height: 1.25; }
+.daily-card__header time { display: block; margin-top: 8px; font-size: 13px; opacity: .82; }
+.daily-card__content { display: grid; gap: 0; padding: 8px 20px 22px; }
+.daily-card__content section { padding: 16px 2px; border-bottom: 1px solid var(--line); }
+.daily-card__content section:last-child { border-bottom: 0; }
+.daily-card__content h2 { margin: 0 0 9px; color: var(--green); font-size: 17px; line-height: 1.35; }
+.daily-card__content p { margin: 7px 0 0; font-size: 15px; line-height: 1.75; white-space: pre-wrap; }
+.daily-card__content .daily-card__weakness { margin-top: 11px; padding: 9px 11px; border-radius: 10px; background: linear-gradient(100deg, rgba(255, 231, 126, .62), rgba(255, 241, 174, .38)); }
+.daily-card__homework { margin: 8px 0 0; padding: 16px 15px !important; border: 0 !important; border-radius: 16px; background: var(--yellow-soft); }
+.daily-card__homework h2 { color: #80600e; }
+.daily-card__homework ol { display: grid; gap: 7px; margin: 0; padding-left: 22px; }
+.daily-card__homework li { padding-left: 2px; font-size: 15px; line-height: 1.65; }
+
 .home-links { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
 .home-links button { min-height: 74px; padding: 13px; border: 1px solid var(--line); border-radius: 16px; color: var(--ink); text-align: left; background: var(--card); box-shadow: 0 5px 18px rgba(66, 57, 45, .05); }
 .home-links span { display: block; color: var(--green); font-size: 15px; font-weight: 900; }
